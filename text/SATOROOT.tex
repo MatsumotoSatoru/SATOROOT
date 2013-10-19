@@ -1081,6 +1081,116 @@ export LD_LIBRARY_PATH=${ROOTSYS}/lib/root:${LD_LIBRARY_PATH}
  \end{itembox}
 
 
+
+ \clearpage
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ %%        %%%        %%%        %%%        %%%        %%%         %%%  %%%%  %%%
+ %%  %%%%%%%%%  %%%%%%%%%  %%%%%%%%%%%%  %%%%%%%%%  %%%%%%  %%%%%  %%%    %%  %%%
+ %%        %%%        %%%  %%%%%%%%%%%%  %%%%%%%%%  %%%%%%  %%%%%  %%%  %  %  %%%
+ %%%%%%%%  %%%  %%%%%%%%%  %%%%%%%%%%%%  %%%%%%%%%  %%%%%%  %%%%%  %%%  %%    %%%
+ %%        %%%        %%%        %%%%%%  %%%%%%        %%%         %%%  %%%   %%%
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ \section{TGraph}
+ \ROOT を使ってx座標及びy座標を与えてグラフを描くことが大いに考えられる。
+ \ROOT では\verb|TGraph|を使うことで実現できる。
+ \begin{itembox}{\texttt{randomwalk.cpp}}
+\begin{verbatim}
+#include "TRandom3.h"
+#include "TCanvas.h"
+#include "TGraph.h"
+
+TCanvas *randomwalk(){
+  const int imax = 100 ;
+  double x[imax] = {0.} ;
+  double y[imax] = {0.} ;
+
+  TRandom3 RandomGenerator(unsigned(time(NULL))) ;
+  TCanvas *c1 = new TCanvas("c1", "c1", 600,600) ;
+  c1->SetGrid(1,1) ;  
+  for(int i = 1 ; i < imax ;i++){
+    x[i] = RandomGenerator.Uniform(-1., 1.) + x[i-1] ; // 前の位置から[-1,1]だけx座標を移動
+    y[i] = RandomGenerator.Uniform(-1., 1.) + y[i-1] ; // 前の位置から[-1,1]だけy座標を移動
+  }
+  TGraph  *f  = new TGraph(imax, x, y) ;
+  f->SetLineStyle(1) ;
+  f->SetLineWidth(2) ;
+  f->SetLineColor(kRed) ;
+  f->SetMarkerStyle(20) ;
+  f->SetMarkerSize(1.1) ;
+  f->SetMarkerColor(kBlue) ;
+
+  f->Draw("APL") ;
+  return c1 ;
+}
+\end{verbatim}
+ \end{itembox}
+ \begin{figure}[htbp]
+  \begin{center}
+   \includegraphics[width = 90mm]{./picture/randomwalkcanvas1.eps}
+  \end{center}
+  \caption{\texttt{randomwalk.cpp}の実行結果}
+  \label{Fig:randomwalkcanvas1}
+ \end{figure}
+
+\subsection{練習}
+\begin{enumerate}
+ \item プログラムの各行を説明せよ
+       \url{http://root.cern.ch/root/html/TGraph.html}
+       \url{http://root.cern.ch/root/html/TGraph.html#TGraph:TGraph@2}
+ \item 今はx,yそれぞれの変化は[-1,1]で与えているが、
+       現在位置から半径1の円周上が新しい点になるようにプログラムを変更せよ。
+       これはTGraphの練習というよりも乱数の練習である。
+       \url{http://root.cern.ch/root/htmldoc/TRandom.html#TRandom:Circle}
+\end{enumerate}
+
+\subsection{解答例}
+
+\begin{enumerate}
+ \item プログラムの各行を説明せよ
+ \item 今はx,yそれぞれの変化は[-1,1]で与えているが、
+       現在位置から半径1の円周上が新しい点になるようにプログラムを変更せよ。
+       \begin{itembox}{\texttt{randomwalksol1.cpp}}
+\begin{verbatim}
+#include "TRandom3.h"
+#include "TCanvas.h"
+#include "TGraph.h"
+
+TCanvas *randomwalksol1(){
+  const int imax = 100 ;
+  double x[imax] = {0.} ;
+  double y[imax] = {0.} ;
+  double deltax ;
+  double deltay ;
+  double radius = 1.0 ;
+  
+  TRandom3 RandomGenerator(unsigned(time(NULL))) ;
+  TCanvas *c1 = new TCanvas("c1", "c1", 600,600) ;
+  c1->SetGrid(1,1) ;  
+  for(int i = 1 ; i < imax ;i++){
+    RandomGenerator.Circle(deltax, deltay, radius) ; // 半径radiusの円周上に一様に乱数を生成する。
+    x[i] = deltax + x[i-1]; // 前の座標からdeltaxだけ移動する
+    y[i] = deltay + y[i-1]; // 前の座標からdeltayだけ移動する
+  }
+  TGraph  *f  = new TGraph(imax, x, y) ;
+  f->SetLineStyle(1) ;
+  f->SetLineWidth(2) ;
+  f->SetLineColor(kRed) ;
+  f->SetMarkerStyle(20) ;
+  f->SetMarkerSize(1.1) ;
+  f->SetMarkerColor(kBlue) ;
+
+  f->Draw("APL") ;
+  return c1 ;
+}
+
+\end{verbatim}
+       \end{itembox}
+
+\end{enumerate}
+
+
+
+
  \clearpage
  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
  %%        %%%        %%%        %%%        %%%        %%%         %%%  %%%%  %%%

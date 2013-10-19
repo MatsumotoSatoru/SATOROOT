@@ -1,6 +1,5 @@
-./text/SATOROOT.tex
-./text/SATOROOT.aux
-./text/SATOROOT.dvi
-./text/SATOROOT.idx
-./text/SATOROOT.log
-./text/SATOROOT.toc
+*.aux
+*.dvi
+*.idx
+*.log
+*.toc

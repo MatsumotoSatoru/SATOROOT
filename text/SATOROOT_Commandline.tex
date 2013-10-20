@@ -1,0 +1,77 @@
+\clearpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%        %%%        %%%        %%%        %%%        %%%         %%%  %%%%  %%%
+%%  %%%%%%%%%  %%%%%%%%%  %%%%%%%%%%%%  %%%%%%%%%  %%%%%%  %%%%%  %%%    %%  %%%
+%%        %%%        %%%  %%%%%%%%%%%%  %%%%%%%%%  %%%%%%  %%%%%  %%%  %  %  %%%
+%%%%%%%%  %%%  %%%%%%%%%  %%%%%%%%%%%%  %%%%%%%%%  %%%%%%  %%%%%  %%%  %%    %%%
+%%        %%%        %%%        %%%%%%  %%%%%%        %%%         %%%  %%%   %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ \section{\ROOT をコマンドラインで使う}
+
+
+  \subsection{\ROOT を起動する}
+\begin{verbatim}
+	$ root
+\end{verbatim}
+\ROOT の起動画面が立ち上がり、
+\begin{figure}[htbp]
+ \begin{center}
+  \includegraphics[width = 80mm]{./picture/root_starting.eps}
+ \end{center}
+ \caption{\ROOT の起動画面}
+ \label{Fig:root_starting}
+\end{figure}
+\begin{verbatim}
+	*******************************************
+	*                                         *
+	*        W E L C O M E  to  R O O T       *
+	*                                         *
+	*   Version   5.34/09      26 June 2013   *
+	*                                         *
+	*  You are welcome to visit our Web site  *
+	*          http://root.cern.ch            *
+	*                                         *
+	*******************************************
+
+	ROOT 5.34/09 (v5-34-09@v5-34-09, Jun 26 2013, 17:10:36 on macosx64)
+
+	CINT/ROOT C/C++ Interpreter version 5.18.00, July 2, 2010
+	Type ? for help. Commands must be C++ statements.
+	Enclose multiple statements between { }.
+\end{verbatim}
+という一連の情報が表示された後、
+\begin{verbatim}
+	root[0]
+\end{verbatim}
+となって\ROOT が立ち上がり操作可能になる。
+
+   \subsubsection{\ROOT の起動画面を省略する}
+   \verb|root|起動時に\verb|-l|オプションをつければ起動画面は省略される。
+\begin{verbatim}
+	$ root -l
+\end{verbatim}
+
+   \subsubsection{\ROOT の起動画面を常に省略する}
+   いちいち \verb|-l| オプションをつけるのが面倒くさい人はbash起動時に自動的に読み込まれるファイル \verb|~/.bash_profile| に次の文章を追加する。
+\begin{verbatim}
+	alias root="root -l"
+\end{verbatim}
+次に\verb|source|コマンドを使用すればよい。
+\begin{verbatim}
+	$ source ~/.bash_profile
+\end{verbatim}
+
+
+この状態でも\ROOT の起動画面を省略しない場合には
+\begin{verbatim}
+	$ \root 
+\end{verbatim}
+
+   \subsubsection{\ROOT がデフォルトで読み込むファイル}
+
+  \subsection{\ROOT を終了する}
+
+\begin{verbatim}
+	root[] .q
+\end{verbatim}

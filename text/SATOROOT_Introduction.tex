@@ -1,0 +1,118 @@
+  \clearpage
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %%        %%%        %%%        %%%        %%%        %%%         %%%  %%%%  %%%
+  %%  %%%%%%%%%  %%%%%%%%%  %%%%%%%%%%%%  %%%%%%%%%  %%%%%%  %%%%%  %%%    %%  %%%
+  %%        %%%        %%%  %%%%%%%%%%%%  %%%%%%%%%  %%%%%%  %%%%%  %%%  %  %  %%%
+  %%%%%%%%  %%%  %%%%%%%%%  %%%%%%%%%%%%  %%%%%%%%%  %%%%%%  %%%%%  %%%  %%    %%%
+  %%        %%%        %%%        %%%%%%  %%%%%%        %%%         %%%  %%%   %%%
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ \section{\ROOT}
+
+
+  \subsection{\ROOT とは}
+  \ROOT ( \url{http://root.cern.ch/drupal/} ) とは、
+  高エネルギー業界で広く普及している膨大なデータを効率的に扱うためのフレームワークです。
+  \Cpp のお作法でプログラミングします。
+  コマントライン上で\ROOT と対話的にプロットやプログラミングを行うことが出来ます。
+
+
+  \subsection{なぜ\ROOT }
+  世の中のいろんなニーズに応えた結果です。(投げやり)
+
+
+  \subsection{\ROOT のインストール}
+  \ROOT のインストール作業を行う。
+  \begin{itemize}
+   \item \texttt{/usr/local/hep/root/5.34.09} \ --- \ \ROOT のライブラリ置き場
+   \item \texttt{~/tmp} \ --- \ コンパイルを実行する時の場所
+  \end{itemize}
+
+
+   \subsubsection*{各ディレクトリの作成}
+\begin{verbatim}
+	$ sudo mkdir -p /usr/local/hep/root/v5.34.09
+	$ mkdir ~/tmp
+\end{verbatim}
+
+
+   \subsubsection*{\ROOT のソースコードのダウンロードと展開}
+\begin{verbatim}
+	$ cd ~/tmp
+	$ sudo wget ftp://root.cern.ch/root/root_v5.34.09.source.tar.gz
+	$ ls
+	root_v5.34.09.source.tar.gz
+	$ sudo tar zxvf root_v5.34.09.source.tar.gz
+	$ ls
+	root
+	root_v5.34.09.source.tar.gz
+\end{verbatim}
+
+
+   \subsubsection*{環境変数の定義}
+\begin{verbatim}
+	$ export ROOTSYS=/usr/local/hep/root/v5.34.09
+\end{verbatim}
+
+
+   \subsubsection*{インストール作業}
+\begin{verbatim}
+	$ cd root
+	$ sudo ./configure --prefix=/usr/local/hep/root/v5.34.09
+\end{verbatim}
+以下のコメントが出てくると\texttt{configure}は成功
+\begin{verbatim}
+	To build ROOT type:
+
+	make
+	make  install
+\end{verbatim}
+指示に従い、
+\verb|make|及び\verb|make install|を行う。
+コンパイルする。
+\begin{verbatim}
+	$ make
+\end{verbatim}
+以下のコメントが出てくると\texttt{make}は成功
+\begin{verbatim}
+============================================================
+===                ROOT BUILD SUCCESSFUL.                ===
+=== Run 'make install' now.                              ===
+============================================================
+\end{verbatim}
+インストールする。
+\begin{verbatim}
+	$ su
+Password:
+	$ make install
+	...
+	$ exit
+\end{verbatim}
+
+
+\subsubsection*{一時ファイルの削除}
+\begin{verbatim}
+	$ cd ../
+	$ pwd
+	~/tmp
+	$ rm -rf root
+\end{verbatim}
+
+
+\subsubsection*{環境変数ファイルの作成}
+\ROOT 用の環境変数定義を書き込んだ\verb|setup.sh|を準備して、
+ホームディレクトリに置く。
+\begin{itembox}{\texttt{setup.sh}}
+\begin{verbatim}
+export ROOTSYS=/usr/local/hep/root/v5.34.09
+export PATH=${ROOTSYS}/bin:${PATH} 
+export LD_LIBRARY_PATH=${ROOTSYS}/lib/root:${LD_LIBRARY_PATH}
+\end{verbatim}
+\end{itembox}
+ホームディレクトリ内のファイル\verb|.bash_profile|に以下の一文を追加する。
+\begin{verbatim}
+	source /usr/local/hep/root/setup.sh
+\end{verbatim}
+その後、
+\begin{verbatim}
+	source .bash_profile
+\end{verbatim}

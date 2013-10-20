@@ -1,0 +1,107 @@
+  \clearpage
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %%        %%%        %%%        %%%        %%%        %%%         %%%  %%%%  %%%
+  %%  %%%%%%%%%  %%%%%%%%%  %%%%%%%%%%%%  %%%%%%%%%  %%%%%%  %%%%%  %%%    %%  %%%
+  %%        %%%        %%%  %%%%%%%%%%%%  %%%%%%%%%  %%%%%%  %%%%%  %%%  %  %  %%%
+  %%%%%%%%  %%%  %%%%%%%%%  %%%%%%%%%%%%  %%%%%%%%%  %%%%%%  %%%%%  %%%  %%    %%%
+  %%        %%%        %%%        %%%%%%  %%%%%%        %%%         %%%  %%%   %%%
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ \section{Fileへの出力}
+
+ \begin{itembox}{\texttt{fileout.cpp}}
+\begin{verbatim}
+	#include "TCanvas.h"
+	#include "TH1.h"
+	#include "TMath.h"
+	#include "TRandom3.h"
+	#include <fstream>
+	#include <iostream>
+	TCanvas *fileout(){
+	std::ofstream outputfile; // file の出力先
+	outputfile.open("output.plt" );// file を開く
+
+	TRandom3 Random(unsigned(time(NULL)));
+
+	TCanvas *c1 = new TCanvas("c1","c1") ;
+
+	int imax = 100000; // event 数の最大値
+	double start ; // start の時刻を擬似的に与える。 
+	double stop  ; // stop の時刻を擬似的に与える。 
+	double tdc   ; // TDC でのカウント数を擬似的に与える。
+	double life = 2.2e-6 ; // Muon の平均寿命を入力する。
+
+	TH1D *h1 = new TH1D("h1","h1",200,0,8000e-9) ; // [s]
+	for(int i = 0; i < imax; i++){
+	start = Random.Uniform(0., 1.e-9) ; // start の時刻を擬似的に与える。
+	stop = Random.Exp(life) ; // 指数関数に従った乱数だけ立った時刻を stop とする
+	stop += start ; // start してから 指数関数に従った乱数だけ立った時刻を stop とする
+	tdc = stop - start ; // このプログラムだけを見るとこの処理は余分な処理だが、TDC の理の為
+	std::cout << tdc << " [s] :: " << start << "" << stop << std::endl;
+	// output という出力先に start と stop をスペース区切りで出力する
+	outputfile << start << " " << stop << " " << endl ;
+	h1->Fill(tdc) ; // ヒストグラムに詰める
+	}
+	h1->Draw("H") ; // 確認用にヒストグラムを出力する。
+	outputfile.close(); // ファイルを閉じる return c1 ;
+	}
+
+\end{verbatim}
+ \end{itembox}
+
+ \begin{itembox}{\texttt{output.plt}}
+\begin{verbatim}
+	4.8318e-10 1.59013e-06 
+	8.88674e-11 2.45466e-06 
+	8.04413e-10 1.65805e-06 
+	...
+\end{verbatim}
+ \end{itembox}
+
+
+ \begin{enumerate}
+  \item プログラムの各行を理解せよ
+	\begin{description}
+	 \item[ヒント] \verb|<fstream>| なるものを\verb|include|している。これはファイル操作の時に今回使用するライブラリである。(今回は使用していないが、\ROOT には\verb|TFile.h|なるクラスも存在する。)
+	\end{description}
+
+  \item 出力先のファイル名を今はマクロ内に直書きしているが、出力先のファイルを output2.plt にしたい時に
+\begin{verbatim}
+	root[0] .L fileoutsol1.cpp+
+	root[1] fileout("output2.plt") 
+\end{verbatim}
+	としたら、自動的に出力先がoutput2.pltに出来る仕様に変更せよ.
+	\begin{description}
+	 \item[ヒント]  \verb|TCanvas *fileout(){HogeHoge }|において引数の中身(\verb|()|の中身)は今まで何も書いてきませんでしたが、
+		    この中には引数を入れることができます。引数をint型の数字\verb|_intnum|にしたいのであれば \\ \verb|TCanvas *fileout(int _intnum ){HogeHoge }|などとして、\verb|{}|内では\verb|_intnum|を定義された\verb|int|型数字だと扱えばいいだけである。では文字列ではどうすればよいか。
+
+	\end{description}
+ \end{enumerate}
+
+  \subsection{解答例}
+  \begin{enumerate}
+   \item プログラムの各行を理解せよ
+
+   \item  出力先のファイル名を今はマクロ内に直書きしているが、出力先のファイルを output2.plt にしたい時に
+\begin{verbatim}
+	root[0] .L fileoutsol1.cpp+
+	root[1] fileout("output2.plt") 
+\end{verbatim}
+	  としたら、自動的に出力先がoutput2.pltに出来る仕様に変更せよ.
+
+	  \begin{itembox}{\texttt{fileoutsol1.cpp}}
+\begin{verbatim}
+	...
+	TCanvas *fileoutsol1(char *outputfilename){
+	std::ofstream outputfile; // file の出力先
+	outputfile.open(outputfilename );// file を開く
+	...
+	}
+\end{verbatim}
+	  \end{itembox}
+
+\begin{verbatim}
+	root[0] .L fileoutsol1.cpp+
+	root[1] fileoutsol1("output2.plt") 
+\end{verbatim} 
+
+  \end{enumerate}

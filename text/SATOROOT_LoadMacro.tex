@@ -1,0 +1,89 @@
+\clearpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%        %%%        %%%        %%%        %%%        %%%         %%%  %%%%  %%%
+%%  %%%%%%%%%  %%%%%%%%%  %%%%%%%%%%%%  %%%%%%%%%  %%%%%%  %%%%%  %%%    %%  %%%
+%%        %%%        %%%  %%%%%%%%%%%%  %%%%%%%%%  %%%%%%  %%%%%  %%%  %  %  %%%
+%%%%%%%%  %%%  %%%%%%%%%  %%%%%%%%%%%%  %%%%%%%%%  %%%%%%  %%%%%  %%%  %%    %%%
+%%        %%%        %%%        %%%%%%  %%%%%%        %%%         %%%  %%%   %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ \section{\ROOT でマクロを読む/実行する方法}
+ \ROOT への命令文が書かれたプログラムのソースコード\verb|hello.cpp|を準備しよう。
+ 今はソースコードを理解しなくてもいいが、
+ 気になる人は付録\ref{sec:namespace}などを参考にして理解せよ。
+ \begin{itembox}{\texttt{hello.cpp}}
+\begin{verbatim}
+	#include <iostream>
+	void hello(){
+	std::cout << "Hello, world" << std::endl ;
+	}
+\end{verbatim}
+ \end{itembox}
+
+  \subsection{\texttt{hello.cpp}の実行方法1}
+  \verb|hello.cpp|を\ROOT 起動時に実行するには、
+\begin{verbatim}
+	$ root hello.cpp
+\end{verbatim}
+上記のコマンドを実行すると、
+\begin{verbatim}
+	root [0] 
+	Processing hello.cpp...
+	Hello, World
+\end{verbatim}
+
+  \subsection{\texttt{hello.cpp}の実行方法2}
+  別の方法は\ROOT をいったん起動して、プログラムを"ロード"して実行するという手段。
+\begin{verbatim}
+	$ root
+	root [0] .L hello.cpp 
+	root [1] hello()
+	Hello, World
+\end{verbatim}
+
+  \subsection{\texttt{hello.cpp}の実行方法3(推奨)}
+  ロードする時に\Cpp コンパイラを通してマクロに含まれるエラーメッセージなどを表記してくれる方法。
+  やり方は'\verb|+|'をロードするファイル名の末尾につける。
+  ( \url{http://root.cern.ch/drupal/content/compiling-macros} )
+\begin{verbatim}
+	$ root
+	root [0] .L hello.cpp+
+\end{verbatim}
+
+例えば\verb|hello.cpp|の\verb|std::endl;|のセミコロンが無い時にはどうなるかというと、
+下のようにエラーメッセージと何が悪いのかをコンパイラが返してくれる。
+\begin{verbatim}
+	Info in <TUnixSystem::ACLiC>: creating shared library /Users/SATOROOT/hello_cpp.so
+	In file included from /Users/SATOROOT/hello_cpp_ACLiC_dict.cxx:17:
+	In file included from /Users/SATOROOT/hello_cpp_ACLiC_dict.h:34:
+	/Users/SATOROOT/hello.cpp:3:42: error: expected ';' after expression
+	std::cout << "Hello, World" <<std::endl 
+	^
+	;
+	In file included from /Users/SATOROOT/hello_cpp_ACLiC_dict.cxx:17:
+	In file included from /Users/SATOROOT/hello_cpp_ACLiC_dict.h:18:
+	/usr/local/hep/root/v5.34.09/include/root/G__ci.h:971:7:  \
+	warning: private field 'type' is not used [-Wunused-private-field]
+	int type;
+	^
+	/usr/local/hep/root/v5.34.09/include/root/G__ci.h:972:7: \
+	warning: private field 'tagnum' is not used [-Wunused-private-field]
+	int tagnum;
+	^
+	/usr/local/hep/root/v5.34.09/include/root/G__ci.h:973:7: \
+	warning: private field 'typenum' is not used [-Wunused-private-field]
+	int typenum;
+	^
+	/usr/local/hep/root/v5.34.09/include/root/G__ci.h:975:19: warning: \
+	private field 'isconst' is not used
+	[-Wunused-private-field]
+	G__SIGNEDCHAR_T isconst;
+	^
+	/usr/local/hep/root/v5.34.09/include/root/G__ci.h:977:29: warning: \
+	private field 'dummyForCint7' is not used
+	[-Wunused-private-field]
+	struct G__DUMMY_FOR_CINT7 dummyForCint7;
+	^
+	5 warnings and 1 error generated.
+	clang: error: no such file or directory: '/Users/SATOROOT/hello_cpp_ACLiC_dict.o'
+	Error in <ACLiC>: Compilation failed!
+\end{verbatim}

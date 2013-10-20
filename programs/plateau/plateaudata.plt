@@ -1,4 +1,4 @@
-# HV[V]  Counts[c/min]
+# HV[V] Counts[c/s]
 1400  3
 1450  1
 1500  2

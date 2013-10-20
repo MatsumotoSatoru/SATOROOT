@@ -1,11 +1,11 @@
-  \clearpage
-  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  %%        %%%        %%%        %%%        %%%        %%%         %%%  %%%%  %%%
-  %%  %%%%%%%%%  %%%%%%%%%  %%%%%%%%%%%%  %%%%%%%%%  %%%%%%  %%%%%  %%%    %%  %%%
-  %%        %%%        %%%  %%%%%%%%%%%%  %%%%%%%%%  %%%%%%  %%%%%  %%%  %  %  %%%
-  %%%%%%%%  %%%  %%%%%%%%%  %%%%%%%%%%%%  %%%%%%%%%  %%%%%%  %%%%%  %%%  %%    %%%
-  %%        %%%        %%%        %%%%%%  %%%%%%        %%%         %%%  %%%   %%%
-  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\clearpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%        %%%        %%%        %%%        %%%        %%%         %%%  %%%%  %%%
+%%  %%%%%%%%%  %%%%%%%%%  %%%%%%%%%%%%  %%%%%%%%%  %%%%%%  %%%%%  %%%    %%  %%%
+%%        %%%        %%%  %%%%%%%%%%%%  %%%%%%%%%  %%%%%%  %%%%%  %%%  %  %  %%%
+%%%%%%%%  %%%  %%%%%%%%%  %%%%%%%%%%%%  %%%%%%%%%  %%%%%%  %%%%%  %%%  %%    %%%
+%%        %%%        %%%        %%%%%%  %%%%%%        %%%         %%%  %%%   %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
  \section{任意の関数に従うヒストグラムを描く}
  自分で定義した関数に従って乱数を生成してヒストグラムを描こう。
  \begin{itembox}{\texttt{ranfun.cpp}}
@@ -15,40 +15,40 @@
 	#include "TH1.h"
 	#include "TMath.h"
 	TH1D *ranfun(){
-	double range_min = 0. ; // 0 [ns]
-	double range_max = 8000.e-9 ;// 8000 [ns]
-	double tau       = 2.2e-6 ; // it means lifetime
-	double bgd = 0.5 ; // Background
-	int nbin = 100 ; // histgram bin num
-	int imax = 100000 ; // event
+	  double range_min = 0. ; // 0 [ns]
+	  double range_max = 8000.e-9 ;// 8000 [ns]
+	  double tau       = 2.2e-6 ; // it means lifetime
+	  double bgd = 0.5 ; // Background
+	  int nbin = 100 ; // histgram bin num
+	  int imax = 100000 ; // event
 
-	TCanvas *c1 = new TCanvas("c1","c1",600,600) ;
-	c1->SetGrid(1,1) ; // Canvas c1 にグリッドを描く
-	c1->SetLogy(1) ;  // Canvas c1 の縦軸をlogで
+	  TCanvas *c1 = new TCanvas("c1","c1",600,600) ;
+	  c1->SetGrid(1,1) ; // Canvas c1 にグリッドを描く
+	  c1->SetLogy(1) ;  // Canvas c1 の縦軸をlogで
 
-	TF1 *f = new TF1("f","TMath::Exp(-x/[0])+[1]", range_min, range_max) ;
-	f->SetParameter(0, tau) ;
-	f->SetParameter(1, bgd) ;
-	//  f->SetParameters(tau,bgd) ; // <--上の二行はこの一行と等価
+	  TF1 *f = new TF1("f","TMath::Exp(-x/[0])+[1]", range_min, range_max) ;
+	  f->SetParameter(0, tau) ;
+	  f->SetParameter(1, bgd) ;
+	  //  f->SetParameters(tau,bgd) ; // <--上の二行はこの一行と等価
 
-	TH1D *h = new TH1D("h","Decay curve (Muon);TDC [s] ; Counts ", nbin, range_min, range_max) ;
-	for(int i=0; i < imax; i++){
-	h->Fill(f->GetRandom()) ;
-	}
-	h->Draw("HE") ;
+	  TH1D *h = new TH1D("h","Decay curve (Muon);TDC [s] ; Counts ", nbin, range_min, range_max) ;
+	  for(int i=0; i < imax; i++){
+	    h->Fill(f->GetRandom()) ;
+	  }
+	  h->Draw("HE") ;
 
-	/********************************************************************************\
-	* Decay Curve Fitting
-	\********************************************************************************/
-	/* If you want to use fit, then please uncomment
-	gStyle->SetOptFit(1101) ;
-	TF1 *muon = new TF1("muon","[0]*TMath::Exp(-x/[1])+[2]") ;
-	muon->SetParameters(2e+3, 2e-6, 1e+2) ;
-	muon->SetLineColor(kBlue) ;
-	muon->SetLineWidth(4) ;
-	h->Fit(muon) ;
-	*/
-	return h ;
+	  /********************************************************************************\
+	  * Decay Curve Fitting
+	  \********************************************************************************/
+	  /* If you want to use fit, then please uncomment
+	  gStyle->SetOptFit(1101) ;
+	  TF1 *muon = new TF1("muon","[0]*TMath::Exp(-x/[1])+[2]") ;
+	  muon->SetParameters(2e+3, 2e-6, 1e+2) ;
+	  muon->SetLineColor(kBlue) ;
+	  muon->SetLineWidth(4) ;
+	  h->Fit(muon) ;
+	  */
+	  return h ;
 	}
 \end{verbatim}
  \end{itembox}
@@ -105,15 +105,15 @@
 \begin{verbatim}
 	...
 	TH1D  *ranfunsol1(){ 
-	...
-	h->GetXaxis()->CenterTitle() ;
-	h->GetYaxis()->CenterTitle() ;
-	h->GetYaxis()->SetTitleOffset(1.4) ;
-	h->SetFillStyle(3002) ;
-	h->SetFillColor(kRed-4) ;
-	h->SetLineColor(kRed) ;
-	h->SetLineWidth(2) ;
-	...
+	  ...
+	  h->GetXaxis()->CenterTitle() ;
+	  h->GetYaxis()->CenterTitle() ;
+	  h->GetYaxis()->SetTitleOffset(1.4) ;
+	  h->SetFillStyle(3002) ;
+	  h->SetFillColor(kRed-4) ;
+	  h->SetLineColor(kRed) ;
+	  h->SetLineWidth(2) ;
+	  ...
 	}
 \end{verbatim}
 	 \end{itembox}
@@ -125,15 +125,15 @@
 \begin{verbatim}
 	...
 	TH1D  *ranfunsol2(){ 
-	...
-	// If you want to use fit, then please uncomment
-	gStyle->SetOptFit(1111) ;
-	TF1 *muon = new TF1("muon","[0]*TMath::Exp(-x/[1])+[2]") ;
-	muon->SetParameters(2e+3, 2e-6, 1e+2) ;
-	muon->SetLineColor(kBlue) ;
-	muon->SetLineWidth(4) ;
-	h->Fit(muon) ;
-	...
+	  ...
+	  // If you want to use fit, then please uncomment
+	  gStyle->SetOptFit(1111) ;
+	  TF1 *muon = new TF1("muon","[0]*TMath::Exp(-x/[1])+[2]") ;
+	  muon->SetParameters(2e+3, 2e-6, 1e+2) ;
+	  muon->SetLineColor(kBlue) ;
+	  muon->SetLineWidth(4) ;
+	  h->Fit(muon) ;
+	  ...
 	}
 \end{verbatim}
 	 \end{itembox}

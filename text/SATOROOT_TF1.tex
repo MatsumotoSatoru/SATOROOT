@@ -1,4 +1,3 @@
-
 \clearpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%        %%%        %%%        %%%        %%%        %%%         %%%  %%%%  %%%
@@ -15,9 +14,9 @@
 	#include "TF1.h"
 	#include "TMath.h"
 	TF1 *sinfunction(){
-	TF1 *f = new TF1("f","TMath::Sin(x)") ;
-	f->Draw() ;
-	return f ;
+	  TF1 *f = new TF1("f","TMath::Sin(x)") ;
+	  f->Draw() ;
+	  return f ;
 	}
 \end{verbatim}
  \end{itembox}
@@ -97,10 +96,10 @@
 \begin{verbatim}
 	...
 	TF1 *sinfunctionsol1(){
-	double pi = TMath::Pi() ;
+	  double pi = TMath::Pi() ;
 
-	TF1 *f = new TF1("f","TMath::Sin(x)", -pi, pi) ;
-	...
+	  TF1 *f = new TF1("f","TMath::Sin(x)", -pi, pi) ;
+	  ...
 	}
 \end{verbatim}
 	 \end{itembox}
@@ -110,16 +109,16 @@
 \begin{verbatim}
 	...
 	TF1 *sinfunctionsol2(){
-	double pi = TMath::Pi() ;
+	  double pi = TMath::Pi() ;
 
-	TF1 *f = new TF1("f","[0]*TMath::Sin([1]*x)", -pi, pi) ;
-	f->SetParameter(0, 2.) ;
-	f->SetParameter(1, 0.5) ;
-	...
+	  TF1 *f = new TF1("f","[0]*TMath::Sin([1]*x)", -pi, pi) ;
+	  f->SetParameter(0, 2.) ;
+	  f->SetParameter(1, 0.5) ;
+	  ...
 	}
 \end{verbatim}
 	 \end{itembox}
-
+	 
    \item $\sin(x)$と$\cos(x)$を一緒に描け。
 	 また$\sin(x)$の線を赤色、$\cos(x)$の線を緑色にせよ。
 	 \begin{itembox}{\texttt{sinfunctionsol3.cpp}}
@@ -127,17 +126,17 @@
 	#include "TF1.h"
 	#include "TMath.h"
 	TF1 *sinfunctionsol3(){
-	double pi = TMath::Pi() ;
+	  double pi = TMath::Pi() ;
 
-	TF1 *f = new TF1("f","TMath::Sin(x)", -pi, pi) ;
-	TF1 *f2 = new TF1("f2","TMath::Cos(x)", -pi, pi) ;
+	  TF1 *f = new TF1("f","TMath::Sin(x)", -pi, pi) ;
+	  TF1 *f2 = new TF1("f2","TMath::Cos(x)", -pi, pi) ;
 
-	f->SetLineColor(kRed) ;
-	f2->SetLineColor(kGreen) ;
+	  f->SetLineColor(kRed) ;
+	  f2->SetLineColor(kGreen) ;
 
-	f->Draw() ;
-	f2->Draw("same") ;
-	return f ;
+	  f->Draw() ;
+	  f2->Draw("same") ;
+	  return f ;
 	}
 \end{verbatim}
 	 \end{itembox}

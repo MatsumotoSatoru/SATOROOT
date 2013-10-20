@@ -7,30 +7,30 @@
 %%        %%%        %%%        %%%%%%  %%%%%%        %%%         %%%  %%%   %%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
  \section{幾つかの常套手段}
- 
- 
+
+
   \subsection{引数を数字にする}
   引数としてある整数を与えて、
   その数自身、その数の二乗、その数の三乗を出力するサンプルプログラムが\verb|usual1.cpp|である。
   \begin{itembox}{\texttt{usual1.cpp}}
 \begin{verbatim}
-#include <iostream>
-#include "TMath.h"
-void usual1(int i){
-  std::cout << i << std::endl ;
-  std::cout << TMath::Power(i,2) << std::endl ;
-  std::cout << TMath::Power(i,3) << std::endl ;
-}
+	#include <iostream>
+	#include "TMath.h"
+	void usual1(int i){
+	  std::cout << i << std::endl ;
+	  std::cout << TMath::Power(i,2) << std::endl ;
+	  std::cout << TMath::Power(i,3) << std::endl ;
+	}
 \end{verbatim}
   \end{itembox}
-実行方法は次の通りである。
+  実行方法は次の通りである。
 \begin{verbatim}
-$ root
-root [0] .L usual1.cpp+
-root [1] usual1(3)
-3
-9
-27
+	$ root
+	root [0] .L usual1.cpp+
+	root [1] usual1(3)
+	3
+	9
+	27
 \end{verbatim}
 なお、\verb|#include "TMath.h"|という命令文によって、
 \ROOT に組み込まれている定数や数式演算を使用可能にしている。
@@ -41,18 +41,18 @@ root [1] usual1(3)
   引数を文字列にしたい場合には
   \begin{itembox}{\texttt{usualchar.cpp}}
 \begin{verbatim}
-#include <iostream>
-void usualchar(char *name){
-  std::cout << "character string = " << name  << std::endl ;
-}
+	#include <iostream>
+	void usualchar(char *name){
+	  std::cout << "character string = " << name  << std::endl ;
+	}
 \end{verbatim}
   \end{itembox}
-実行方法は次の通りである。
+  実行方法は次の通りである。
 \begin{verbatim}
-$ root
-root [0] .L usualchar.cpp 
-root [1] usualchar("test")
-character string = test
+	$ root
+	root [0] .L usualchar.cpp 
+	root [1] usualchar("test")
+	character string = test
 \end{verbatim}
 
 
@@ -61,16 +61,16 @@ character string = test
   \verb|,|を挟んで定義すれば良い。
   \begin{itembox}{\texttt{usualage.cpp}}
 \begin{verbatim}
-#include <iostream>
-void usualage(char *name,int i){
-  std::cout << name << " is " << i << " years old." << std::endl ;
-}
+	#include <iostream>
+	void usualage(char *name,int i){
+	  std::cout << name << " is " << i << " years old." << std::endl ;
+	}
 \end{verbatim}
   \end{itembox}
-実行方法は次の通りである。
+  実行方法は次の通りである。
 \begin{verbatim}
-$ root
-root [0] .L usualage.cpp 
-root [1] usualage("satoru",24)
-satoru is 24 years old.
+	$ root
+	root [0] .L usualage.cpp 
+	root [1] usualage("satoru",24)
+	satoru is 24 years old.
 \end{verbatim}

@@ -1,11 +1,11 @@
-  \clearpage
-  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  %%        %%%        %%%        %%%        %%%        %%%         %%%  %%%%  %%%
-  %%  %%%%%%%%%  %%%%%%%%%  %%%%%%%%%%%%  %%%%%%%%%  %%%%%%  %%%%%  %%%    %%  %%%
-  %%        %%%        %%%  %%%%%%%%%%%%  %%%%%%%%%  %%%%%%  %%%%%  %%%  %  %  %%%
-  %%%%%%%%  %%%  %%%%%%%%%  %%%%%%%%%%%%  %%%%%%%%%  %%%%%%  %%%%%  %%%  %%    %%%
-  %%        %%%        %%%        %%%%%%  %%%%%%        %%%         %%%  %%%   %%%
-  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\clearpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%        %%%        %%%        %%%        %%%        %%%         %%%  %%%%  %%%
+%%  %%%%%%%%%  %%%%%%%%%  %%%%%%%%%%%%  %%%%%%%%%  %%%%%%  %%%%%  %%%    %%  %%%
+%%        %%%        %%%  %%%%%%%%%%%%  %%%%%%%%%  %%%%%%  %%%%%  %%%  %  %  %%%
+%%%%%%%%  %%%  %%%%%%%%%  %%%%%%%%%%%%  %%%%%%%%%  %%%%%%  %%%%%  %%%  %%    %%%
+%%        %%%        %%%        %%%%%%  %%%%%%        %%%         %%%  %%%   %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
  \section{\ROOT}
 
 
@@ -74,41 +74,41 @@
 \end{verbatim}
 以下のコメントが出てくると\texttt{make}は成功
 \begin{verbatim}
-============================================================
-===                ROOT BUILD SUCCESSFUL.                ===
-=== Run 'make install' now.                              ===
-============================================================
+	============================================================
+	===                ROOT BUILD SUCCESSFUL.                ===
+	=== Run 'make install' now.                              ===
+	============================================================
 \end{verbatim}
 インストールする。
 \begin{verbatim}
 	$ su
-Password:
+	Password:
 	$ make install
 	...
 	$ exit
 \end{verbatim}
 
 
-\subsubsection*{一時ファイルの削除}
+   \subsubsection*{一時ファイルの削除}
 \begin{verbatim}
 	$ cd ../
 	$ pwd
-	~/tmp
+	/tmp
 	$ rm -rf root
 \end{verbatim}
 
 
-\subsubsection*{環境変数ファイルの作成}
-\ROOT 用の環境変数定義を書き込んだ\verb|setup.sh|を準備して、
-ホームディレクトリに置く。
-\begin{itembox}{\texttt{setup.sh}}
+   \subsubsection*{環境変数ファイルの作成}
+   \ROOT 用の環境変数定義を書き込んだ\verb|setup.sh|を準備して、
+   ホームディレクトリに置く。
+   \begin{itembox}{\texttt{setup.sh}}
 \begin{verbatim}
-export ROOTSYS=/usr/local/hep/root/v5.34.09
-export PATH=${ROOTSYS}/bin:${PATH} 
-export LD_LIBRARY_PATH=${ROOTSYS}/lib/root:${LD_LIBRARY_PATH}
+	export ROOTSYS=/usr/local/hep/root/v5.34.09
+	export PATH=${ROOTSYS}/bin:${PATH} 
+	export LD_LIBRARY_PATH=${ROOTSYS}/lib/root:${LD_LIBRARY_PATH}
 \end{verbatim}
-\end{itembox}
-ホームディレクトリ内のファイル\verb|.bash_profile|に以下の一文を追加する。
+   \end{itembox}
+   ホームディレクトリ内のファイル\verb|.bash_profile|に以下の一文を追加する。
 \begin{verbatim}
 	source /usr/local/hep/root/setup.sh
 \end{verbatim}
@@ -116,3 +116,4 @@ export LD_LIBRARY_PATH=${ROOTSYS}/lib/root:${LD_LIBRARY_PATH}
 \begin{verbatim}
 	source .bash_profile
 \end{verbatim}
+ 

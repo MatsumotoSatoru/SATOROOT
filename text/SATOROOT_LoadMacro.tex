@@ -8,8 +8,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
  \section{\ROOT でマクロを読む/実行する方法}
  \ROOT への命令文が書かれたプログラムのソースコード\verb|hello.cpp|を準備しよう。
- 今はソースコードを理解しなくてもいいが、
- 気になる人は付録\ref{sec:namespace}などを参考にして理解せよ。
  \begin{itembox}{\texttt{hello.cpp}}
 \begin{verbatim}
 	#include <iostream>
@@ -18,6 +16,32 @@
 	}
 \end{verbatim}
  \end{itembox}
+ ざっとプログラムの流れを眺める。
+ \begin{enumerate}
+  \item \verb|#include <iostream>| \\
+	\verb|#include|とは、\Cpp のお作法であってヘッダファイル/ライブラリを読み込むということである。
+	今の場合\Cpp で標準入出力を行う為に必要となるライブラリ\verb|<iostream>|を読み込むという意味
+  \item \verb|void hello(){| \\
+	マクロの名前を準備するかを記述している箇所である。
+	\Cpp では関数を定義する時に \\
+	＜型名＞ ＜関数名＞(＜引数＞)\{HogeHoge\} \\
+	という書き方をする。今の場合だと\\
+	＜型名＞ = \verb|void|、＜関数名＞=\verb|hello|、＜引数＞=無し、といった具合である。
+	\textcolor{red}{暫くの間はマクロ名とファイル名を同じにする。}
+
+  \item \verb|std::cout << "Hello, world" << std::endl ;| \\
+	\verb|std::cout|は標準出力を意味している。
+	\verb|<<|は標準出力先に続き文字列や数字を渡す。
+	\verb|"Hello, world"|を標準出力に渡している。
+	\verb|std::endl|は改行を意味する。
+
+  \item \verb|}| \\
+	2行目の\verb|{|に対応する括弧
+ \end{enumerate}
+
+ 今はソースコードを理解しなくてもいいが、
+ 気になる人は付録\ref{sec:namespace}などを参考にして理解せよ。
+
 
   \subsection{\texttt{hello.cpp}の実行方法1}
   \verb|hello.cpp|を\ROOT 起動時に実行するには、

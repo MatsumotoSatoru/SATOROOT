@@ -46,18 +46,13 @@
 (\Cpp のお作法をしっかり学ぶつもりは無いので説明はそれなりの質なので気になる箇所は自分でググるべし)
 \begin{enumerate}
  \item \verb|#include "TF1.h"| \\
-       \verb|#include|とは、\Cpp のお作法であってヘッダファイル/ライブラリを読み込むということである。
-       今の場合\ROOT で関数を描く為に必要となるライブラリ\verb|"TF1.h"|を読み込むという意味
+       \ROOT で関数を描く為に必要となるライブラリ\verb|"TF1.h"|を読み込むという意味
  \item \verb|#include "TMath.h"| \\ 
        \ROOT で特定の定数$\pi$や$e$などの値や、
        関数$\sin(x)$、$\exp(x)$などを使用する時に必要となるライブラリ\verb|"TMath.h"|を読み込む。
  \item \verb|TF1 *sinfunction(){ |\\
        マクロの名前を準備するかを記述している箇所である。
-       \Cpp では関数を定義する時に \\
-       ＜型名＞ ＜関数名＞(＜引数＞)\{HogeHoge\} \\
-       という書き方をする。今の場合だと\\
-       h       ＜型名＞ = \verb|TF1|、＜関数名＞=\verb|sinfunction|、＜引数＞=無し、といった具合である。
-       \textcolor{red}{暫くの間はマクロ名とファイル名を同じにする。}
+       ＜型名＞ = \verb|TF1|、＜関数名＞=\verb|sinfunction|、＜引数＞=無し、を表している。
        \verb|*sinfunction|というのは\verb|sinfunction|という関数のポインタを意味するが、これ以上は触れない。
  \item \verb|TF1 *f = new TF1("f","TMath::Sin(x)") ;| \\
        ここからが\verb|sinfunction.cpp|の本文。

@@ -57,37 +57,32 @@
 \end{verbatim}
  \end{itembox}
 
-
+  \subsection{練習}
  \begin{enumerate}
   \item プログラムの各行を理解せよ
 	\begin{description}
 	 \item[ヒント] \verb|<fstream>| なるものを\verb|include|している。これはファイル操作の時に今回使用するライブラリである。(今回は使用していないが、\ROOT には\verb|TFile.h|なるクラスも存在する。)
 	\end{description}
 
-  \item 出力先のファイル名を今はマクロ内に直書きしているが、出力先のファイルを output2.plt にしたい時に
-\begin{verbatim}
-	root[0] .L fileoutsol1.cpp+
-	root[1] fileout("output2.plt") 
-\end{verbatim}
-	としたら、自動的に出力先がoutput2.pltに出来る仕様に変更せよ.
-	\begin{description}
-	 \item[ヒント]  \verb|TCanvas *fileout(){HogeHoge }|において引数の中身(\verb|()|の中身)は今まで何も書いてきませんでしたが、
-		    この中には引数を入れることができます。引数をint型の数字\verb|_intnum|にしたいのであれば \\ \verb|TCanvas *fileout(int _intnum ){HogeHoge }|などとして、\verb|{}|内では\verb|_intnum|を定義された\verb|int|型数字だと扱えばいいだけである。では文字列ではどうすればよいか。
+%  \item 出力先のファイル名を今はマクロ内に直書きしているが、%出力先のファイルを output2.plt にしたい時に
+%\begin{verbatim}
+%	root[0] .L fileoutsol1.cpp+
+%	root[1] fileout("output2.plt") 
+%\end{verbatim}
+%	としたら、自動的に出力先がoutput2.pltに出来る仕様に変更せよ.
+%	\begin{description}
+%	 \item[ヒント]  \verb|TCanvas *fileout(){HogeHoge }|において引数の中身(\verb|()|の中身)は今まで何も書いてきませんでしたが、
+%		    この中には引数を入れることができます。引数をint型の数字\verb|_intnum|にしたいのであれば \\ \verb|TCanvas *fileout(int _intnum ){HogeHoge }|などとして、\verb|{}|内では\verb|_intnum|を定義された\verb|int|型数字だと扱えばいいだけである。では文字列ではどうすればよいか。
 
-	\end{description}
+  \item 出力先のファイル名を今はマクロ内に直書きしているが、引数をファイル名にせよ
  \end{enumerate}
 
   \subsection{解答例}
   \begin{enumerate}
    \item プログラムの各行を理解せよ
-
-   \item  出力先のファイル名を今はマクロ内に直書きしているが、出力先のファイルを output2.plt にしたい時に
-\begin{verbatim}
-	root[0] .L fileoutsol1.cpp+
-	root[1] fileout("output2.plt") 
-\end{verbatim}
-	  としたら、自動的に出力先がoutput2.pltに出来る仕様に変更せよ.
-
+	 
+   \item 出力先のファイル名を今はマクロ内に直書きしているが、引数をファイル名にせよ
+	 
 	  \begin{itembox}{\texttt{fileoutsol1.cpp}}
 \begin{verbatim}
 	...

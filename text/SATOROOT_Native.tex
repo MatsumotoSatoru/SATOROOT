@@ -88,3 +88,16 @@ $c++ -Wall hello2wrong.cpp -o hello2wrong
 hello2wrong.cpp: In function ‘int main(int, char**)’:
 hello2wrong.cpp:4: error: expected `;' before ‘return’	
 \end{verbatim}
+
+
+
+
+\subsection{オブジェクトファイル}
+初心者には更に厄介な事情がある。
+今までは直接実行ファイルを作成していたが、
+"関連してくるファイルが増えてきた時には、
+各ソースコードからオブジェクトファイルと呼ばれるものを作成し、
+オブジェクトファイルの組み合わせによって実行ファイルを作成する。"
+というプロセスを得るのが普通である。
+オプション\verb|-c|をつけることによって、
+オブジェクトファイルを作成するところまでを行わせることが出来る。

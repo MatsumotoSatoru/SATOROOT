@@ -115,3 +115,32 @@ Makefile	hello2		hello2.cpp
  \texttt{Makefile}ではマクロという変数を用いることで、
  直打ちから脱却が出来る。
  その例が\texttt{Makefike2}である。
+\begin{itembox}{\texttt{Makefile2}}
+ \begin{verbatim}
+	# hello2.cppからhello2という実行ファイルを作成する為のMakefile
+TARGET = hello2
+COM    = c++
+CFLAGS = -Wall
+all:$(TARGET)
+
+$(TARGET):
+        $(COM) $(CFLAGS) $(TARGET).cpp -o $(TARGET)
+ \end{verbatim}
+\end{itembox}
+\texttt{マクロ = 値}でマクロを定義してマクロに値を格納し、
+\texttt{$(マクロ名)$}でマクロに格納された値を用いる。
+
+\verb|make|を実行し、
+実行ファイル\texttt{hello2}が出来上がっていることを確認しよう。
+\begin{verbatim}
+$ ls
+Makefile	Makefile2	hello2.cpp
+$ make -f Makefile2
+c++ -Wall hello2.cpp -o hello2
+$ ls
+Makefile	Makefile2	hello2		hello2.cpp
+\end{verbatim}
+\verb|make|の実行文が全てマクロが展開された形で行われていることが見てとれる。
+
+
+\subsection{オブジェクトファイルを意識したメイクファイル}

@@ -1,6 +1,9 @@
-# Makefileの中では #で始まる行は実際にはコメントアウトされます。
 # hello2.cppからhello2という実行ファイルを作成する為のMakefile
-all:hello2
 
-hello22:
-	c++ -Wall hello2.cpp -o hello2
+TARGET = hello2
+COM    = c++
+CFLAGS = -Wall
+all:$(TARGET)
+
+$(TARGET):
+	$(COM) $(CFLAGS) $(TARGET).cpp -o $(TARGET)

@@ -1,0 +1,112 @@
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %%        %%%        %%%        %%%        %%%        %%%         %%%  %%%%  %%%
+  %%  %%%%%%%%%  %%%%%%%%%  %%%%%%%%%%%%  %%%%%%%%%  %%%%%%  %%%%%  %%%    %%  %%%
+  %%        %%%        %%%  %%%%%%%%%%%%  %%%%%%%%%  %%%%%%  %%%%%  %%%  %  %  %%%
+  %%%%%%%%  %%%  %%%%%%%%%  %%%%%%%%%%%%  %%%%%%%%%  %%%%%%  %%%%%  %%%  %%    %%%
+  %%        %%%        %%%        %%%%%%  %%%%%%        %%%         %%%  %%%   %%%
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ \section{Makefileその1}
+ 
+ 
+
+ \subsection{Make(メイク)}
+
+ メイクとはMakefileと呼ばれるルールを記述したファイル、
+ または予め定義された規則などからUNIXのShellが実行するコマンド列を作成するコマンドジェネレータの役目を持つ。
+ メイクはファイル間の依存関係を整理するのにも使われ、大規模プログラミングでは必須のツールである。
+ \verb|make|というコマンドがまず自分のPCに導入されているかを確認しておいて欲しい。
+ なければどこぞからインストールしてくること。
+ \verb|make|があるかどうかの確認は
+ \begin{verbatim}
+	$ which make
+	/usr/bin/make
+ \end{verbatim}
+\verb|make|のヴァージョン確認は
+ \begin{verbatim}
+	$ make -v
+GNU Make 3.81
+Copyright (C) 2006  Free Software Foundation, Inc.
+This is free software; see the source for copying conditions.
+There is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE.
+
+This program built for i386-apple-darwin11.3.0
+ \end{verbatim}
+ 
+ 
+ 
+ \subsection{Makefile}
+ Makefileメイクで実行するコマンド列を定義しておくファイル名である。
+ Makefileが存在するディレクトリ下において、
+ \begin{verbatim}
+	$ make
+ \end{verbatim}
+ と入力することでMakefileにかかれた内容が実行される。
+ なお、
+ \verb|make|で実行したいファイル名が\verb|Makefile2|の場合には
+ \begin{verbatim}
+	$ make Makefile2
+ \end{verbatim}
+ \verb|make|で実行したいファイル名が\verb|hogex|の場合には
+ \begin{verbatim}
+	$ make hogex
+ \end{verbatim}
+ などとすればよい。
+ 
+ 
+ \subsection{直打ちメイクファイル}
+まずは\texttt{hello2.cpp}を\verb|make|することで実行ファイルを作成するMakefileを作ってみよう。
+お作法を知らなくてもまずは真似をして書いてみて欲しい。
+\begin{itembox}{\texttt{Makefile}}
+\begin{verbatim}
+# Makefileの中では #で始まる行は実際にはコメントアウトされます。
+# hello2.cppからhello2という実行ファイルを作成する為のMakefile
+all:hello2
+
+hello2:
+        c++ -Wall hello2.cpp -o hello2
+\end{verbatim}
+\end{itembox}
+ただし、\textcolor{red}{'\texttt{c++ -Wall hello2.cpp -o hello2}'の行の行頭は\texttt{<TAB>}を用いること。}
+
+\texttt{hello2.cpp}と\texttt{Makefile}が同じディレクトリにいることを確認した後、
+早速\verb|make|を実行し、
+実行ファイル\texttt{hello2}が出来上がっていることを確認しよう。
+\begin{verbatim}
+	$ ls
+Makefile	hello2.cpp
+	$ make
+c++     hello2.cpp   -o hello2
+	$ ls
+Makefile	hello2		hello2.cpp
+\end{verbatim}
+
+
+\subsubsection*{直打ちメイクファイルの解説}
+\texttt{Makefile}の中身を順序立てて追っていく。
+\begin{enumerate}
+ \item \verb|all:hello2| \\
+       コロン記号\verb|:|の直前の\verb|all|のことをターゲットという。
+       \verb|make|を実行すると、デフォルトで\verb|all|というターゲットが存在するかどうかをチェックする。
+       そして今は\verb|all|が定義されているので、
+       この行が処理の対象となる。
+       次にターゲットの右にリストされるターゲットから実行する。
+       今の場合、\verb|hello2|がリストされているので、
+       次のターゲットが\verb|hello2|ということになる。
+
+ \item \verb|hello2:| \\
+       ターゲットが\verb|hello2|を意味している。
+       この行はターゲットの場所を顕に示しただけであり、
+       すぐ次の文へと移る。
+       
+\item \verb|        c++ -Wall hello2.cpp -o hello2| \\
+       ターゲットが\verb|hello2|に属している実行分である。
+      \textcolor{red}{Makefileでは実行分の行頭を\texttt{<TAB>}でインデントする必要があるので注意すること。}
+      この文で実行される内容は、\verb|hello2.cpp|というソースコードをコンパイルして、
+      実行ファイル\verb|hello2|を作るという動作である。
+\end{enumerate}
+
+
+
+
+ \subsection{マクロを利用したメイクファイル}

@@ -5,4 +5,86 @@
   %%%%%%%%  %%%  %%%%%%%%%  %%%%%%%%%%%%  %%%%%%%%%  %%%%%%  %%%%%  %%%  %%    %%%
   %%        %%%        %%%        %%%%%%  %%%%%%        %%%         %%%  %%%   %%%
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
- \section{ネイティブプログラム}
+ \section{ネイティブプログラムへの移行準備}
+
+ \subsection{プログラミング言語とコンパイラ}
+ とりあえず動かすことを目的としてきたので、
+ 一旦落ち着いてコンパイラの話をする。
+
+ 今まで我々が扱ってきたソースコードは全て人間のための言葉であり、
+ 機械のための言葉ではない。
+ このような言語を高水準言語と呼ぶ。
+ 一方、機会が実際に実行できる仕様になっている言語のことを低水準言語または機械語などと言ったりする。
+ プログラマが書いた高水準言語を低水準言語に変換してくれるのがコンパイラである。
+ 
+ 
+  \subsection{コンパイラ \texttt{c++}}
+  \Cpp 用のコンパイラ。
+  本テキストでは コンパイラとして\texttt{c++}を常に用いる。
+  
+  
+  \subsection{コンパイルする}
+  
+  サンプルプログラム\texttt{hello2.cpp}をコンパイルする方法を紹介する。
+  \begin{itembox}{\texttt{hello2.cpp}}
+\begin{verbatim}
+#include <iostream>
+int main(int argc, char** argv){
+  std::cout << "Hello, World" << std::endl;
+  return EXIT_SUCCESS ;
+}
+\end{verbatim}
+  \end{itembox}
+   
+   
+   \subsubsection*{一番シンプルなコンパイル}
+   \begin{verbatim}
+	$ c++ hello2.cpp
+   \end{verbatim}
+   これで\texttt{a.out}が出来上がる。
+   この\texttt{a.out}が実行ファイルである。
+   実行ファイルを実行する方法は
+   \begin{verbatim}
+	$ ./a.out
+	Hello, World
+   \end{verbatim}
+   
+   
+   \subsubsection*{実行ファイルの名前を指定してコンパイル}
+   実行ファイル名を\texttt{a.out}以外にしたい時には\verb|-o|オプションを用いる。
+   \begin{verbatim}
+	c++ hello2.cpp -o hello2
+   \end{verbatim}
+   これで実行ファイル\texttt{hello2}が生成される。
+   実行方法は先の場合とファイル名が違うだけで
+   \begin{verbatim}
+	$ ./hello2
+	Hello, World
+   \end{verbatim}
+   
+   
+   
+   \subsubsection*{全ての警告文を表記するオプションを追加してコンパイル}
+   コンパイル時にオプション\verb|-Wall|オプションを用いることで、
+   コンパイラが警告できる警告文を全て表記させる事ができる。
+   \begin{verbatim}
+	c++ -Wall hello2.cpp -o hello2
+   \end{verbatim}
+   と言った具合である。
+   
+   試しにサンプルプログラム\texttt{hello2wrong.cpp}
+  \begin{itembox}{\texttt{hello2wrong.cpp}}
+\begin{verbatim}
+#include <iostream>
+int main(int argc, char** argv){
+  std::cout << "Hello, World" << std::endl
+  return EXIT_SUCCESS ;
+}
+\end{verbatim}
+  \end{itembox}
+  をコンパイルしてみると、下記のようなエラー文を返してくれる。
+\begin{verbatim}
+$c++ -Wall hello2wrong.cpp -o hello2wrong
+hello2wrong.cpp: In function ‘int main(int, char**)’:
+hello2wrong.cpp:4: error: expected `;' before ‘return’	
+\end{verbatim}

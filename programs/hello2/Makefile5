@@ -2,7 +2,13 @@
 TARGET = hello2
 COM    = c++
 CFLAGS = -Wall
+OBJS   = $(TARGET).o
+
 all:$(TARGET)
 
-$(TARGET):
-	$(COM) $(CFLAGS) $(TARGET).cpp -o $(TARGET)
+$(TARGET):$(OBJS)
+	$(COM) $(CFLAGS) $(TARGET).cpp -o $^
+$(OBJS):$(TARGET).cpp
+	$(COM) -c $<
+clean:
+	rm -f *.o

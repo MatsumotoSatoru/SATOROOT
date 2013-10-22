@@ -1,0 +1,162 @@
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %%        %%%        %%%        %%%        %%%        %%%         %%%  %%%%  %%%
+  %%  %%%%%%%%%  %%%%%%%%%  %%%%%%%%%%%%  %%%%%%%%%  %%%%%%  %%%%%  %%%    %%  %%%
+  %%        %%%        %%%  %%%%%%%%%%%%  %%%%%%%%%  %%%%%%  %%%%%  %%%  %  %  %%%
+  %%%%%%%%  %%%  %%%%%%%%%  %%%%%%%%%%%%  %%%%%%%%%  %%%%%%  %%%%%  %%%  %%    %%%
+  %%        %%%        %%%        %%%%%%  %%%%%%        %%%         %%%  %%%   %%%
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ \section{Makefileその2:ファイルを分割する}
+ 
+ 
+ 
+
+整数の3乗を計算するプログラム\texttt{cube.cpp}を分割することを考える。
+\begin{itembox}{\texttt{cube.cpp}}
+ \begin{verbatim}
+#include "iostream"
+int cube(int a) ;
+
+int main(int argc, char** argv){
+  std::cout << cube(4) << std::endl ;
+  return EXIT_SUCCESS ;
+}
+
+int cube(int a){
+  return a*a*a ;
+}
+ \end{verbatim}
+\end{itembox}
+この時のメイクファイルは
+\begin{itembox}{\texttt{Makefile}}
+\begin{verbatim}
+TARGET = cube
+COM    = c++
+CFLAGS = -Wall
+OBJS   = $(TARGET).o
+
+all:$(TARGET)
+
+$(TARGET):$(OBJS)
+	$(COM) $(CFLAGS) $(TARGET).cpp -o $^
+$(OBJS):$(TARGET).cpp
+	$(COM) -c $<
+
+clean:
+        rm -f *.o
+\end{verbatim}
+\end{itembox}
+	
+	
+	
+\clearpage
+ \subsection{分割したファイルのコンパイル}
+
+ファイルを次の三つに分割する。
+\begin{itembox}{\texttt{head.h}}
+\begin{verbatim}
+int cube(int) ;
+\end{verbatim}
+\end{itembox}
+
+\begin{itembox}{\texttt{sub.cpp}}
+\begin{verbatim}
+#include "head.h"
+int cube(int a){
+  return a*a*a ;
+}
+\end{verbatim}
+\end{itembox}
+
+\begin{itembox}{\texttt{main.cpp}}
+\begin{verbatim}
+#include "head.h"
+#include <iostream>
+int cube(int a) ;
+
+int main(int argc, char** argv){
+  std::cout << cube(4) << std::endl ;
+  return EXIT_SUCCESS ;
+}
+\end{verbatim}
+\end{itembox}
+
+これら三つのファイルをつかったコンパイルの方法は柿の通りである。
+\begin{verbatim}
+$ ls
+head.h		main.cpp	sub.cpp
+$ c++ -c main.cpp
+$ c++ -c sub.cpp
+$ ls
+head.h		main.cpp	main.o		sub.cpp		sub.o
+$ c++ -o main main.o sub.o
+$ ls
+head.h		main		main.cpp	main.o		sub.cpp		sub.o
+\end{verbatim}
+また、
+これらの動作をひと綴りにした\texttt{Makefile}を\texttt{Makefile2}に示す。
+\begin{itembox}{\texttt{Makefile2}}
+ \begin{verbatim}
+TARGET = main
+TARGET2= sub
+HEAD   = head
+
+COM    = c++
+CFLAGS = -Wall
+OBJS   = $(TARGET).o $(TARGET2).o
+
+all:$(TARGET)
+
+$(TARGET):$(OBJS)
+        $(COM) $(CFLAGS) -o $(TARGET) $(OBJS)
+
+$(TARGET).o:$(TARGET).cpp $(HEAD).h
+        $(COM) -c $<
+
+$(TARGET2).o:$(TARGET2).cpp $(HEAD).h
+        $(COM) -c $<
+clean:
+        rm -f *.o
+ \end{verbatim}
+\end{itembox}
+\texttt{Makefile2}の使い方は下記の通り、
+\begin{verbatim}
+$ make -f Makefile2
+c++ -c main.cpp
+c++ -c sub.cpp
+c++ -Wall -o main main.o sub.o
+$ ./main
+64
+\end{verbatim}
+
+
+\begin{itembox}{\texttt{Makefile3}}
+ \begin{verbatim}
+TARGET = main
+TARGET2= sub
+HEAD   = head
+
+COM    = c++
+CFLAGS = -Wall
+OBJS   = $(TARGET).o $(TARGET2).o
+
+all:$(TARGET)
+
+$(TARGET):$(OBJS)
+        $(COM) $(CFLAGS) -o $(TARGET) $(OBJS)
+.cpp.o:
+        $(CC) $(CFLAGS) -c $<
+$(TARGET).o : $(HEAD).h  # main.cppの依存ファイルは head.h
+$(TARGET2).o: $(HEAD).h # main.cppの依存ファイルは head.h
+
+clean:
+        rm -f *.o\end{verbatim}
+\end{itembox}
+\texttt{Makefile3}の使い方は下記の通り、
+\begin{verbatim}
+$ make -f Makefile3
+c++ -c main.cpp
+c++ -c sub.cpp
+c++ -Wall -o main main.o sub.o
+$ ./main
+64
+\end{verbatim}

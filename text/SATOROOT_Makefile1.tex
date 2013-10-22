@@ -144,3 +144,88 @@ Makefile	Makefile2	hello2		hello2.cpp
 
 
 \subsection{オブジェクトファイルを意識したメイクファイル}
+
+後々の事を考えてオブジェクトファイルを意識した\texttt{Makefile}の例を示す。
+\begin{itembox}{\texttt{Makefile3}}
+\begin{verbatim}
+# hello2.cppからhello2という実行ファイルを作成する為のMakefile
+TARGET = hello2
+COM    = c++
+CFLAGS = -Wall
+OBJS   = $(TARGET).o
+
+all:$(TARGET)
+
+$(TARGET):$(OBJS)
+        $(COM) $(CFLAGS) $(TARGET).cpp -o $(TARGET)
+$(OBJS):$(TARGET).cpp
+        $(COM) -c $(TARGET).cpp
+\end{verbatim}
+\end{itembox}
+
+\subsection{内部マクロを用いたメイクファイル}
+
+\verb|Makefile|内部では、
+内部マクロと言われる特殊な指定子を用いることが出来る。
+
+\begin{table}[H]
+   \begin{tabular}{ll} \hline
+    記号        & 説明 \\ \midrule
+    \verb| $@ | &	: ターゲットファイル名 \\
+    \verb| $< | &	: 最初の依存ファイル名 \\
+    \verb| $? | &	: ターゲットより新しい全ての依存ファイル名 \\
+    \verb| $^ | &	: 全ての依存ファイル名 \\
+    \verb| $+ | &	: Makefileと同じ順番の依存ファイル名 \\
+    \verb| $* | &	: suffixを除いたターゲット名 \\
+    \verb| $% | &	: アーカイブだった時のターゲットメンバ名 \\ 
+	\hline
+  \end{tabular}
+\end{table}
+
+内部マクロを用いた\texttt{Makefile}の例を示す。
+\begin{itembox}{\texttt{Maefile4}}
+ \begin{verbatim}
+# hello2.cppからhello2という実行ファイルを作成する為のMakefile
+TARGET = hello2
+COM    = c++
+CFLAGS = -Wall
+OBJS   = $(TARGET).o
+
+all:$(TARGET)
+
+$(TARGET):$(OBJS)
+        $(COM) $(CFLAGS) $(TARGET).cpp -o $^
+$(OBJS):$(TARGET).cpp
+        $(COM) -c $<
+ \end{verbatim}
+\end{itembox}
+
+
+
+
+\subsection{ターゲット\texttt{clean}}
+
+\verb|Makefile|でよく使われるターゲットに\texttt{clean}というのがある。
+\texttt{clean}の役割はオブジェクトファイルを削除して全てのファイルを再コンパイル可能にする為のもの。
+\begin{itembox}{\texttt{Maefile5}}
+ \begin{verbatim}
+# hello2.cppからhello2という実行ファイルを作成する為のMakefile
+TARGET = hello2
+COM    = c++
+CFLAGS = -Wall
+OBJS   = $(TARGET).o
+
+all:$(TARGET)
+$(TARGET):$(OBJS)
+        $(COM) $(CFLAGS) $(TARGET).cpp -o $^
+$(OBJS):$(TARGET).cpp
+        $(COM) -c $<
+clean:
+        rm -f *.o \end{verbatim}
+\end{itembox}
+\texttt{Makefile4}と\texttt{Makefile5}の違いは最後の二行だけである。
+使い方は
+\begin{verbatim}
+	$ make -f Makefile5 clean
+rm -f *.o
+\end{verbatim}

@@ -1,10 +1,10 @@
-  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  %%        %%%        %%%        %%%        %%%        %%%         %%%  %%%%  %%%
-  %%  %%%%%%%%%  %%%%%%%%%  %%%%%%%%%%%%  %%%%%%%%%  %%%%%%  %%%%%  %%%    %%  %%%
-  %%        %%%        %%%  %%%%%%%%%%%%  %%%%%%%%%  %%%%%%  %%%%%  %%%  %  %  %%%
-  %%%%%%%%  %%%  %%%%%%%%%  %%%%%%%%%%%%  %%%%%%%%%  %%%%%%  %%%%%  %%%  %%    %%%
-  %%        %%%        %%%        %%%%%%  %%%%%%        %%%         %%%  %%%   %%%
-  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%        %%%        %%%        %%%        %%%        %%%         %%%  %%%%  %%%
+%%  %%%%%%%%%  %%%%%%%%%  %%%%%%%%%%%%  %%%%%%%%%  %%%%%%  %%%%%  %%%    %%  %%%
+%%        %%%        %%%  %%%%%%%%%%%%  %%%%%%%%%  %%%%%%  %%%%%  %%%  %  %  %%%
+%%%%%%%%  %%%  %%%%%%%%%  %%%%%%%%%%%%  %%%%%%%%%  %%%%%%  %%%%%  %%%  %%    %%%
+%%        %%%        %%%        %%%%%%  %%%%%%        %%%         %%%  %%%   %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
  \section{Makefileその3:引数を利用する}
  
  
@@ -28,5 +28,153 @@
  
  
  
-\subsection{とりあえず動かす}
+  \subsection{とりあえず動かす}
+  
+  引数の数と引数の文字列を表記するサンプルプログラム\texttt{show.cpp}と、
+  その\texttt{Makefile}を次に示す。
+  \begin{itembox}{\texttt{show.cpp}}
+\begin{verbatim}
+#include <iostream>
+int main(int argc,char** argv){
+  std::cout << "argc = " << argc << std::endl ;
+  for(int i=0; i< argc ;i++){
+    std::cout << "argv[" << i << "]= " << argv[i] << std::endl;
+  }
+  return EXIT_SUCCESS ;
+}
+\end{verbatim}
+  \end{itembox}
+  
+  \begin{itembox}{\texttt{Makefile}}
+\begin{verbatim}
+TARGET = show
 
+COM    = c++
+CFLAGS = -Wall
+OBJS   = $(TARGET).o
+
+all:$(TARGET)
+
+$(TARGET):$(OBJS)
+	$(COM) $(CFLAGS) -o $(TARGET) $(OBJS)
+.cpp.o:
+	$(CC) $(CFLAGS) -c $<
+$(TARGET).o :
+
+clean:
+	rm -f *.o
+\end{verbatim}
+  \end{itembox}
+  
+  実行例は次のとおりである。
+  まずは\verb|make|。
+\begin{verbatim}
+$ ls	
+Makefile	show.cpp
+$ make
+cc -Wall -c show.cpp
+c++ -Wall -o show show.o
+\end{verbatim}
+次に引数を与えずに実行してみよう。
+\begin{verbatim}
+$ ./show
+argc = 1
+argv[0]= ./show
+\end{verbatim}
+引数を与えていないので、
+\verb|argc|は実行ファイルのみをしめす$1$、
+\verb|argv[0]|は今実行した実行ファイル名になっている。
+
+次に引数を3つ与えてみる。
+\begin{verbatim}
+$ ./show a b c
+argc = 4
+argv[0]= ./show
+argv[1]= a
+argv[2]= b
+argv[3]= c
+\end{verbatim}
+verb|argc|は実行ファイル以外に3つの引数を持つことを示す$4$、
+\verb|argv[i]|はそれぞれ実行ファイル名を引数に対応する文字列である。
+
+文字列の大きさは1文字でなくても良い。
+\begin{verbatim}
+$ ./show abc
+argc = 2
+argv[0]= ./show
+argv[1]= abc
+\end{verbatim}
+
+数字を引数に与えてみるとどうなるだろうか？
+\begin{verbatim}
+$ ./show a. 1.e-2
+argc = 3
+argv[0]= ./show
+argv[1]= a.
+argv[2]= 1.e-2
+\end{verbatim}
+ここで注意して欲しいのは、
+\verb|argv[2]|は文字列として出力されているということだ。
+例えば\ROOT のコマンドライン上で\verb|1.e-2|を入力すると、
+\begin{verbatim}
+root [] 1.e-2
+(const double)1.00000000000000002e-02
+\end{verbatim}
+と表示されるが、先ほどの例では入力した文字列のままで出力されていることに注意しておく必要が有る。
+したがって、\textcolor{red}{\texttt{argv[i]}を数字として直接扱うことはバグの原因となりえる}ので注意すること。
+\verb|argv[i]|を数字に変換する方法は練習問題とする。
+
+\subsection{練習}
+
+\begin{enumerate}
+ \item 実行ファイル自身以外の引数の数が2以外だとエラーメッセージを返すようにせよ。
+       
+ \item 2つの引数の和を表示するように変更せよ。
+       ただし、入力される引数は数字だけが入力されると仮定してよい。
+       (より応用な問題としては、そもそも引数が数字かどうかの判定なども考えられる。
+       興味に応じて調べよ。)
+       \begin{description}
+	\item[ヒント] \url{http://www.cplusplus.com/reference/cstdlib/atof/}
+       \end{description}
+\end{enumerate}
+
+
+\subsection{解答例}
+
+\begin{enumerate}
+ \item 実行ファイル自身以外の引数の数が2以外だとエラーメッセージを返すようにせよ。
+       
+ \item 2つの引数の和を表示するように変更せよ。
+       ただし、入力される引数は数字だけが入力されると仮定してよい。
+\end{enumerate}
+\begin{itembox}{\texttt{showsol1.cpp}}
+ \begin{verbatim}
+#include <iostream>
+int main(int argc,char** argv){
+  std::cout << "argc = " << argc << std::endl ;
+  if(argc!=3){
+    std::cerr << "Usage like ... \n ./showsol1 3.2 4" << std::endl ;
+    return EXIT_FAILURE ;
+  }
+  for(int i=0; i< argc ;i++){
+    std::cout << "argv[" << i << "]= " << argv[i] << std::endl;
+  }
+  std::cout << argv[1] << " + " << argv[2] << " = " << atof(argv[1]) + atof(argv[2]) << std::endl;
+  return EXIT_SUCCESS ;
+}
+ \end{verbatim}
+\end{itembox}
+
+実行結果は下記の通りである。
+\begin{verbatim}
+$ ./showsol1 
+argc = 1
+Usage like ... 
+ ./showsol1 3.2 4
+$ ./showsol1 6 4
+argc = 3
+argv[0]= ./showsol1
+argv[1]= 6
+argv[2]= 4
+6 + 4 = 10
+\end{verbatim}

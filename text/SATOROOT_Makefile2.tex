@@ -80,7 +80,7 @@ int main(int argc, char** argv){
 \end{verbatim}
 \end{itembox}
 
-これら三つのファイルをつかったコンパイルの方法は柿の通りである。
+これら三つのファイルをつかったコンパイルの方法は下記の通りである。
 \begin{verbatim}
 $ ls
 head.h		main.cpp	sub.cpp
@@ -92,6 +92,9 @@ $ c++ -o main main.o sub.o
 $ ls
 head.h		main		main.cpp	main.o		sub.cpp		sub.o
 \end{verbatim}
+
+
+
 また、
 これらの動作をひと綴りにした\texttt{Makefile}を\texttt{Makefile2}に示す。
 \begin{itembox}{\texttt{Makefile2}}
@@ -127,6 +130,12 @@ c++ -Wall -o main main.o sub.o
 $ ./main
 64
 \end{verbatim}
+
+
+\subsubsection{インクルドガード}
+工事中。
+詳しくはググれ。
+
 
 
 \begin{itembox}{\texttt{Makefile3}}

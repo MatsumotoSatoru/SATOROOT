@@ -1,0 +1,21 @@
+TARGET = gaus2d
+
+COM        = c++
+CFLAGS     = -Wall
+ROOTCFLAGS = $(shell root-config --cflags)
+ROOTLIBS   = $(shell root-config --libs)
+CXXFLAGS   = $(ROOTCFLAGS) $(CFLAGS)
+CXXLIBS    = $(ROOTLIBS)
+
+OBJS   = $(TARGET).o
+
+all:$(TARGET)
+
+$(TARGET):$(OBJS)
+	$(COM) $(CXXLIBS) -o $(TARGET) $(OBJS)
+.cpp.o:
+	$(CC) $(CXXFLAGS) -c $<
+$(TARGET).o :
+
+clean:
+	rm -f *.o

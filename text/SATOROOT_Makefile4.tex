@@ -10,3 +10,179 @@
  
  
  本章で\ROOT のライブラリなどネイティブでも使用できるようにする。
+ 
+  \subsection{\ROOT ライブラリとのリンク}
+  
+  \ROOT の数式ライブラリに含まれている定義値$\pi$を表示しよう。
+  \begin{itembox}{\texttt{pi.cpp}}
+\begin{verbatim}
+#include "TMath.h"
+#include <iostream>
+int main(int argc, char** argv){
+  std::cout << "Pi = " << TMath::Pi() << std::endl ;
+  return EXIT_SUCCESS ;
+}
+\end{verbatim}
+  \end{itembox}
+  メイクファイルを今までと同じように準備してみよう。
+  \begin{itembox}{\texttt{pi.cpp}}
+\begin{verbatim}
+TARGET = pi
+
+COM    = c++
+CFLAGS = -Wall
+OBJS   = $(TARGET).o
+
+all:$(TARGET)
+
+$(TARGET):$(OBJS)
+        $(COM) $(CFLAGS) -o $(TARGET) $(OBJS)
+.cpp.o:
+        $(CC) $(CFLAGS) -c $<
+$(TARGET).o :
+
+clean:
+        rm -f *.o
+\end{verbatim}
+  \end{itembox}
+  
+  
+  \verb|make|を実行してみると、
+\begin{verbatim}
+$ make
+cc -Wall -c pi.cpp
+pi.cpp:1:10: fatal error: 'TMath.h' file not found
+#include "TMath.h"
+         ^
+1 error generated.
+make: *** [pi.o] Error 1
+\end{verbatim}
+はい、エラーが出ました。
+そこで\texttt{Makefile}を次のように書き換える。
+\begin{itembox}{\texttt{Makefile2}}
+ \begin{verbatim}
+TARGET = pi
+
+COM        = c++
+CFLAGS     = -Wall
+ROOTCFLAGS = $(shell root-config --cflags)
+ROOTLIBS   = $(shell root-config --libs)
+CXXFLAGS   = $(ROOTCFLAGS) $(CFLAGS)
+CXXLIBS    = $(ROOTLIBS)
+
+OBJS   = $(TARGET).o
+
+all:$(TARGET)
+
+$(TARGET):$(OBJS)
+	$(COM) $(CXXLIBS) -o $(TARGET) $(OBJS)
+.cpp.o:
+	$(CC) $(CXXFLAGS) -c $<
+$(TARGET).o :
+
+clean:
+	rm -f *.o
+ \end{verbatim}
+\end{itembox}
+行った変更はコンパイルフラグを追加したことと、
+\ROOT のライブラリとのリンク作業である。
+\verb|make|してみよう。
+\begin{verbatim}
+$ make -f Makefile2
+cc -pthread -m64 -I/usr/local/hep/root/v5.34.09/include/root -Wall -c pi.cpp
+c++ -L/usr/local/hep/root/v5.34.09/lib/root -lCore -lCint -lRIO -lNet -lHist \
+-lGraf -lGraf3d -lGpad -lTree -lRint -lPostscript -lMatrix -lPhysics -lMathCore \
+-lThread -lpthread -lm -ldl -o pi pi.o
+$ ./pi 
+Pi = 3.14159
+\end{verbatim}
+ちょっと長ったらしい実行分の後、
+目的の実行ファイル\texttt{pi}が出来上がる。
+
+
+\subsection{幾つかのサンプルプログラム}
+
+
+   \subsubsection{ヒストグラムの描写と保存}
+     \begin{itembox}{\texttt{hist2.cpp}}
+\begin{verbatim}
+#include "TCanvas.h"
+#include "TH1.h"
+#include <iostream>
+
+int main(int argc, char** argv){
+  TCanvas *c1 = new TCanvas("c1", "c1", 600, 600) ;
+  TH1D *h = new TH1D("h", "h", 100, -5., 5.) ;
+  h->FillRandom("gaus") ;
+  h->Draw("E") ;
+  c1->SaveAs("hist2c1.eps") ;
+  delete h ;
+  delete c1 ;
+  return EXIT_SUCCESS ;
+}
+\end{verbatim}
+     \end{itembox}
+
+     \begin{itembox}{\texttt{Makefile}}
+\begin{verbatim}
+TARGET = hist2
+
+COM        = c++
+CFLAGS     = -Wall
+ROOTCFLAGS = $(shell root-config --cflags)
+ROOTLIBS   = $(shell root-config --libs)
+CXXFLAGS   = $(ROOTCFLAGS) $(CFLAGS)
+CXXLIBS    = $(ROOTLIBS)
+
+OBJS   = $(TARGET).o
+
+all:$(TARGET)
+
+$(TARGET):$(OBJS)
+        $(COM) $(CXXLIBS) -o $(TARGET) $(OBJS)
+.cpp.o:
+        $(CC) $(CXXFLAGS) -c $<
+$(TARGET).o :
+
+clean:
+        rm -f *.o
+\end{verbatim}
+     \end{itembox}
+     実行方法は下記の通り。
+\begin{verbatim}
+$ ls
+Makefile	hist2.cpp
+$ make
+cc -pthread -m64 -I/usr/local/hep/root/v5.34.09/include/root -Wall -c hist2.cpp
+c++ -L/usr/local/hep/root/v5.34.09/lib/root -lCore -lCint -lRIO -lNet -lHist -lGraf \
+-lGraf3d -lGpad -lTree -lRint -lPostscript -lMatrix -lPhysics -lMathCore -lThread -lpthread \
+ -lm -ldl -o hist2 hist2.o
+$ ./hist2 
+Info in <TCanvas::Print>: eps file hist2c1.eps has been created
+$ ls
+Makefile	hist2c1.eps		hist2		hist2.cpp	hist2.o
+\end{verbatim}
+
+     
+   \subsubsection{}
+
+     \begin{itembox}{\texttt{}}
+\begin{verbatim}
+\end{verbatim}
+     \end{itembox}
+     \begin{itembox}{\texttt{}}
+\begin{verbatim}
+\end{verbatim}
+     \end{itembox}
+   
+   
+   \subsubsection{}
+   
+        \begin{itembox}{\texttt{}}
+\begin{verbatim}
+\end{verbatim}
+     \end{itembox}
+     \begin{itembox}{\texttt{}}
+\begin{verbatim}
+\end{verbatim}
+     \end{itembox}

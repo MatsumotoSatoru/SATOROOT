@@ -1,3 +1,4 @@
+#include "TApplication.h"
 #include "TCanvas.h"
 #include "TF2.h"
 #include "TH2.h"
@@ -15,7 +16,7 @@ int main(int argc, char** argv){
     return EXIT_FAILURE ;
   }
   else{/* DO NOT ANYTHING */}
-  
+  TApplication app( "app", &argc, argv );  
   double x ;
   double y ;
   int imax = atoi(argv[1]) ;
@@ -25,7 +26,9 @@ int main(int argc, char** argv){
   
   TCanvas *c1 = new TCanvas("c1", "c1", 600, 600) ;
   gStyle->SetOptStat("enRM") ;
-    
+  c1->SetTicks(1,1) ;
+  c1->SetGrid(1,1) ;
+  c1->SetRightMargin(0.15) ;
   TH2D *hist    = new TH2D("hist",title,100, -5., 5., 100, -5., 5.) ;
   TF2 *gausfunc = new TF2("gausfunc","[0]*TMath::Exp( - TMath::Sqrt(  TMath::Power((x-[1])/[2],2)/2. + TMath::Power((y-[3])/[4],2)/2. ))", -5., 5., -5., 5.) ;
   gausfunc->SetParameters(1., 0., 0.5, 0., 0.5) ;
@@ -40,12 +43,12 @@ int main(int argc, char** argv){
   hist->Draw("colz") ;
   gPad->Update();
   TPaveStats *st = (TPaveStats*)hist->FindObject("stats") ;
-  st->SetX1NDC(0.65) ;
-  st->SetX2NDC(0.90) ;
+  st->SetX1NDC(0.60) ;
+  st->SetX2NDC(0.85) ;
   st->SetY1NDC(0.70) ;
   st->SetY2NDC(0.90) ;
-  
   c1->SaveAs("gaus2dc1.eps") ;
+  app.Run() ;
   delete c1 ;
   delete hist ;
   delete gausfunc ;

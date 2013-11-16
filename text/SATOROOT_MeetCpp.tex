@@ -1,0 +1,64 @@
+以下は作業中。
+
+
+\texttt{C}言語もしくはその流れを汲む\texttt{C++}を初めて触れる人の為の最低限を紹介する。
+ 人間が書いたソースコードを機械が理解出来る言語に変換することをコンパイルという。
+ \texttt{C++}のソースコードをコンパイルする方法を紹介する。
+
+
+
+\section{何もしないプログラムを作成・実行する}
+
+
+ \subsection{何もしないプログラムを用意する}
+ まずは何もしない空っぽのプログラムを書いてみる。
+ \begin{itembox}{\texttt{empty.cpp}}
+\begin{verbatim}
+int main(){
+}
+\end{verbatim}
+ \end{itembox}
+\texttt{empty.cpp}は\texttt{C++}で書かれた本当に何もしないプログラムである。
+
+
+ \subsection{初めてのコンパイル}
+ まずは自分の作業環境にコンパイラが存在することを確認する。
+ 本テキストでは一貫して\verb|c++|を用いる。
+ \texttt{empty.cpp}をコンパイルする方法は以下のようである。
+\begin{verbatim}
+ $ c++ empty.cpp
+\end{verbatim}
+すると、\texttt{a.out}というファイルがコンパイルしたディレクトリに作成される。
+ただし、\texttt{empty.cpp}の内容を正しく入力出来ていない場合にはエラー分が出てくるのでその指示に従ってなおす。
+\texttt{a.out}の実行方法は
+\begin{verbatim}
+ $ ./a.out
+\end{verbatim}
+とすればよい。
+先に述べた通り、何も起きない。
+
+
+\section{Hello, world}
+プログラムに関わる人にはおなじみの\texttt{Hello, world}を出力するプログラムを作成する。
+\begin{itembox}{\texttt{empty.cpp}}
+\begin{verbatim}
+#include <iostream>
+int main(){
+    std::cout << "Hello, world" << std::endl ;
+  }
+\end{verbatim}
+\end{itembox}
+各行の簡単な説明を行う。
+{\color{red}\begin{verbatim}
+#include <iostream>
+\end{verbatim} }
+\texttt{C}言語はライブラリと呼ばれるものを読み込むことで、
+そのライブラリ内で定義されている様々な操作を行うことが可能となる。
+この'読み込む'ということが\ \verb|#include|\ であり、
+'読み込まれるライブラリ'が\ \texttt{iostream}\ である。
+{\color{red}\begin{verbatim}
+int main(){
+\end{verbatim}}
+\texttt{C}言語で書かれたプログラムが実行されたとき、
+一番最初に実行する関数の名前は\ \texttt{main}\ という関数である。
+この一行はその定義文である。

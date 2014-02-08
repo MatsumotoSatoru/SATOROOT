@@ -40,12 +40,13 @@ int main(){
 
 \section{Hello, world}
 プログラムに関わる人にはおなじみの\texttt{Hello, world}を出力するプログラムを作成する。
-\begin{itembox}{\texttt{empty.cpp}}
+\begin{itembox}{\texttt{hello.cpp}}
 \begin{verbatim}
 #include <iostream>
 int main(){
-    std::cout << "Hello, world" << std::endl ;
-  }
+  std::cout << "Hello, World" << std::endl ;
+  retrun 0 ;
+}
 \end{verbatim}
 \end{itembox}
 各行の簡単な説明を行う。
@@ -62,3 +63,53 @@ int main(){
 \texttt{C}言語で書かれたプログラムが実行されたとき、
 一番最初に実行する関数の名前は\ \texttt{main}\ という関数である。
 この一行はその定義文である。
+{\color{red}\begin{verbatim}
+std::cout << "Hello, world" << std::endl ;
+\end{verbatim}}
+行末のセミコロンは\texttt{C}言語では改行を意味している。
+\texttt{std::cout}は続く値や文章を標準出力に出力することをあらわす。
+なお\texttt{std::}は名前空間という概念(\ref{sec:namespace})が関係するが
+後々勉強すればよい。
+感覚的には\texttt{std::cout}という標準出力にむけて\texttt{<<}という記号で持って、
+文字列\texttt{"Hello, world"}を送り出している。
+その後、続けて\texttt{std::endl}を送り出している。
+\texttt{std::endl}は改行を意味する。
+{\color{red}\begin{verbatim}
+return 0 ;
+\end{verbatim}}
+main関数の実行結果をOSに伝えている一文であり、
+0は正常終了を意味する。
+0以外は異常終了を意味する。
+一般的には\texttt{return 1;}などして明示的に異常終了を伝える。
+{\color{red}\begin{verbatim}
+}
+\end{verbatim}}
+main関数に対応する括弧である。
+
+最後にコンパイルして、実行してみよう。
+\begin{verbatim}
+$ c++ empty.cpp
+$ ./a.out
+Hello, world
+\end{verbatim}
+
+\section{変数の宣言}
+  \subsection{変数の型}
+\texttt{C}言語には以下の様な型が存在する。
+以下はそれぞれどの程度のデータを確保できるかというデータサイズが決まっているが、
+使用環境にもよる。
+ここでは紹介程度ですますので、
+より詳しいことが知りたい人は各自で検索。
+\begin{table}[H]
+ \begin{tabular}{ll}
+  型 & 何に使うか \\
+  char   & 文字列 \\
+  int    & 整数(小数は扱えません) \\
+  float  & 数字 \\
+  double & 数字(floatよりも高い精度) \\
+ \end{tabular}
+ \caption{\texttt{C}言語の型}
+\end{table}
+
+  
+\section{しつこり Hello, world}
